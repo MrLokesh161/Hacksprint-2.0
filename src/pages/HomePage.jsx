@@ -121,7 +121,7 @@ const Home = () => {
     {
       name: "Devfolio",
       image: "./devfoliologo.png",
-      alt: "Devfolio Logo",
+      alt: "DEVFOLIO LOGO",
       link: "https://devfolio.co/",
     },
   ];
@@ -130,7 +130,7 @@ const Home = () => {
     {
       name: "ETHIndia",
       image: "./ethlogo.png",
-      alt: "ETHIndia Logo",
+      alt: "ETHINDIA LOGO",
       link: "https://ethindia.co/",
     },
   ];
