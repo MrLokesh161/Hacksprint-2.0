@@ -1,0 +1,87 @@
+@import "tailwindcss";
+
+@layer base {
+  * {
+    @apply box-border;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply m-0 p-0 overflow-x-hidden;
+    font-family: 'Rajdhani', sans-serif;
+    min-height: 100vh;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Pixelify Sans', sans-serif !important;
+  }
+}
+
+
+@layer utilities {
+  .text-shadow-glow {
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5),
+                 0 0 20px rgba(255, 255, 255, 0.3),
+                 0 0 30px rgba(255, 255, 255, 0.2);
+  }
+  
+  /* Custom font utility classes with high specificity */
+  .pixel-font {
+    font-family: 'Pixelify Sans', monospace !important;
+    font-weight: 700 !important;
+    line-height: 1.2 !important;
+  }
+  
+  .space-font {
+    font-family: 'Orbitron', sans-serif !important;
+  }
+  
+  .body-font {
+    font-family: 'Rajdhani', sans-serif !important;
+  }
+  
+  /* Custom Spaceship Cursor */
+  .spaceship-cursor {
+    cursor: url('/spaceship-cursor.svg') 20 22, auto;
+  }
+  
+  .spaceship-cursor * {
+    cursor: url('/spaceship-cursor.svg') 20 22, auto;
+  }
+  
+  /* Page spacing for fixed progress bar */
+  .page-with-progress-bar {
+    padding-top: 5rem;
+  }
+  
+  /* Ensure proper scrolling behavior */
+  .page-container {
+    overflow-y: auto;
+    height: auto;
+    min-height: 100vh;
+  }
+  
+  /* Enhanced hover cursor for interactive elements */
+  .spaceship-cursor button,
+  .spaceship-cursor a,
+  .spaceship-cursor [role="button"],
+  .spaceship-cursor .cursor-pointer {
+    cursor: url('/spaceship-cursor-hover.svg') 14 20, pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .spaceship-cursor button:hover,
+  .spaceship-cursor a:hover,
+  .spaceship-cursor [role="button"]:hover,
+  .spaceship-cursor .cursor-pointer:hover {
+    filter: drop-shadow(0 0 8px rgba(34, 211, 238, 0.6));
+  }
+  
+  /* Special cursor for Among Us character */
+  .spaceship-cursor .among-us-character {
+    cursor: url('/spaceship-cursor-hover.svg') 14 20, pointer;
+  }
+}
