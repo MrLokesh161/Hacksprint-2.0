@@ -1,24 +1,60 @@
 <!doctype html>
 <html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HackSprint - Space Mission</title>
 
-<head>
-  <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HackSprint - Space Mission</title>
+    <!-- Space themed fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
 
-  <!-- Space themed fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap"
-    rel="stylesheet">
+  <body class="dark:bg-spaceBlack bg-spaceBlack">
+    <!-- 🔹 Static Devfolio verification block (visible in raw HTML) -->
+    <section
+      id="devfolio-branding"
+      style="
+        text-align: center;
+        margin-top: 16px;
+        margin-bottom: 16px;
+      "
+    >
+      <!-- Required sponsor logos with exact ALT text -->
+      <img
+        src="/devfoliologo.png"
+        alt="DEVFOLIO LOGO"
+        style="height: 40px; margin: 0 12px;"
+      />
+      <img
+        src="/ethlogo.png"
+        alt="ETHINDIA LOGO"
+        style="height: 40px; margin: 0 12px;"
+      />
 
-</head>
+      <!-- Apply with Devfolio button placeholder -->
+      <div
+        class="apply-button"
+        data-hackathon-slug="hacksprint2"
+        data-button-theme="dark"
+        style="height: 44px; width: 312px; margin: 16px auto 0;"
+      ></div>
+    </section>
 
-<body class="dark:bg-spaceBlack bg-spaceBlack">
-  <div id="root"></div>
-  <script type="module" src="/src/main.jsx"></script>
-</body>
+    <div id="root"></div>
 
+    <!-- Devfolio SDK script (needed for the button above) -->
+    <script
+      src="https://apply.devfolio.co/v2/sdk.js"
+      async
+      defer
+    ></script>
+
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
 </html>

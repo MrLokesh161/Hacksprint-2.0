@@ -573,8 +573,9 @@ const Home = () => {
                   className="inline-flex items-center justify-center"
                 >
                   <img
-                    src={s.image}
-                    alt={s.alt}
+                    src={"./devfoliologo.png"}
+                    alt={"DEVFOLIO LOGO"}
+                    link={"https://devfolio.co/"}
                     className="h-32 object-contain"
                   />
                 </a>
