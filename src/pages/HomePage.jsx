@@ -3,19 +3,18 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import EmergencyButton from "../components/EmergencyButton";
 import StarfieldBackground from "../components/StarfieldBackground";
-import SpaceshipLoadingAnimation from "../components/SpaceShipLoading";
 
 const Home = () => {
-  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+
   const [timeLeft, setTimeLeft] = useState({
     days: 97,
     hours: 0,
     minutes: 0,
     seconds: 0,
   });
-  const navigate = useNavigate();
 
-  // Devfolio script
+  // Load Devfolio SDK
   useEffect(() => {
     const script = document.createElement("script");
     script.src = "https://apply.devfolio.co/v2/sdk.js";
@@ -23,7 +22,7 @@ const Home = () => {
     script.defer = true;
     document.body.appendChild(script);
     return () => {
-      document.body.removeChild(script);
+      if (script.parentNode) script.parentNode.removeChild(script);
     };
   }, []);
 
@@ -42,7 +41,9 @@ const Home = () => {
           hours: Math.floor(
             (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
           ),
-          minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
+          minutes: Math.floor(
+            (distance % (1000 * 60 * 60)) / (1000 * 60)
+          ),
           seconds: Math.floor((distance % (1000 * 60)) / 1000),
         });
       }
@@ -51,16 +52,10 @@ const Home = () => {
     return () => clearInterval(timer);
   }, []);
 
-  const handleStartLoading = () => {
-    setIsLoading(true);
-    setTimeout(() => {
-      navigate("/about");
-    }, 3000);
+  // Direct navigation, no loading screen
+  const handleStart = () => {
+    navigate("/about");
   };
-
-  if (isLoading) {
-    return <SpaceshipLoadingAnimation />;
-  }
 
   // Animation variants
   const containerVariants = {
@@ -121,98 +116,60 @@ const Home = () => {
     },
   };
 
-  // Sponsors data
-  const sponsorTiers = {
-    platinum: [
-      {
-        name: "Devfolio",
-        image: "./devfoliologo.png",
-        alt: "DEVFOLIO LOGO",
-        link: "https://devfolio.co/",
-      },
-    ],
-    gold: [
-      {
-        name: "ETHIndia",
-        image: "./ethlogo.png",
-        alt: "ETHINDIA LOGO",
-        link: "https://ethindia.co/",
-      },
-    ],
-    silver: [
-      {
-        name: "TechCorp",
-        image: "techcorp-logo.png",
-        alt: "TechCorp Logo",
-        link: "#",
-      },
-      {
-        name: "InnovateLab",
-        image: "innovate-logo.png",
-        alt: "InnovateLab Logo",
-        link: "#",
-      },
-    ],
-    bronze: [
-      {
-        name: "SecureNet",
-        image: "securenet-logo.png",
-        alt: "SecureNet Logo",
-        link: "#",
-      },
-      {
-        name: "IoT Solutions",
-        image: "iot-logo.png",
-        alt: "IoT Solutions Logo",
-        link: "#",
-      },
-      {
-        name: "OpenSource Inc",
-        image: "opensource-logo.png",
-        alt: "OpenSource Inc Logo",
-        link: "#",
-      },
-    ],
-  };
+  // Sponsor logo arrays (no tier passed to functions)
+  const platinumSponsors = [
+    {
+      name: "Devfolio",
+      image: "./devfoliologo.png",
+      alt: "Devfolio Logo",
+      link: "https://devfolio.co/",
+    },
+  ];
 
-  const tierConfig = {
-    platinum: {
-      title: "PLATINUM SPONSORS",
-      color: "from-gray-300 to-gray-100",
-      borderColor: "border-gray-300/50",
-      textColor: "text-gray-300",
-      glowColor: "rgba(229, 231, 235, 0.8)",
-      cardSize: "col-span-full",
-      logoSize: "h-32",
+  const goldSponsors = [
+    {
+      name: "ETHIndia",
+      image: "./ethlogo.png",
+      alt: "ETHIndia Logo",
+      link: "https://ethindia.co/",
     },
-    gold: {
-      title: "GOLD SPONSORS",
-      color: "from-yellow-400 to-yellow-600",
-      borderColor: "border-yellow-400/50",
-      textColor: "text-yellow-400",
-      glowColor: "rgba(251, 191, 36, 0.8)",
-      cardSize: "col-span-full lg:col-span-2",
-      logoSize: "h-24",
+  ];
+
+  const silverSponsors = [
+    {
+      name: "TechCorp",
+      image: "techcorp-logo.png",
+      alt: "TechCorp Logo",
+      link: "#",
     },
-    silver: {
-      title: "SILVER SPONSORS",
-      color: "from-gray-400 to-gray-600",
-      borderColor: "border-gray-400/50",
-      textColor: "text-gray-400",
-      glowColor: "rgba(156, 163, 175, 0.8)",
-      cardSize: "col-span-1 lg:col-span-1",
-      logoSize: "h-20",
+    {
+      name: "InnovateLab",
+      image: "innovate-logo.png",
+      alt: "InnovateLab Logo",
+      link: "#",
     },
-    bronze: {
-      title: "BRONZE SPONSORS",
-      color: "from-orange-600 to-orange-800",
-      borderColor: "border-orange-600/50",
-      textColor: "text-orange-400",
-      glowColor: "rgba(234, 88, 12, 0.8)",
-      cardSize: "col-span-1",
-      logoSize: "h-16",
+  ];
+
+  const bronzeSponsors = [
+    {
+      name: "SecureNet",
+      image: "securenet-logo.png",
+      alt: "SecureNet Logo",
+      link: "#",
     },
-  };
+    {
+      name: "IoT Solutions",
+      image: "iot-logo.png",
+      alt: "IoT Solutions Logo",
+      link: "#",
+    },
+    {
+      name: "OpenSource Inc",
+      image: "opensource-logo.png",
+      alt: "OpenSource Inc Logo",
+      link: "#",
+    },
+  ];
 
   return (
     <motion.div
@@ -221,44 +178,65 @@ const Home = () => {
       animate={{ opacity: 1 }}
       transition={{ duration: 1 }}
     >
-      {/* Three.js Canvas for 3D starfield background */}
+      {/* 3D / Starfield background */}
       <div className="fixed inset-0 w-full h-full">
         <StarfieldBackground />
       </div>
 
-      {/* Main content overlay */}
+      {/* Main content */}
       <motion.div
         className="relative z-10 flex flex-col items-center justify-center px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32 py-12 sm:py-16 min-h-screen"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
       >
-        {/* Title Section */}
+        {/* Title + lightning */}
         <motion.div className="text-center space-y-4" variants={itemVariants}>
           <motion.div
             className="relative inline-block"
             variants={titleVariants}
             whileHover="hover"
           >
-            {/* (All your lightning SVG + title code stays exactly the same) */}
-            {/* -------------- TITLE / LIGHTNING START -------------- */}
-            {/* Background Lightning SVG */}
+            {/* Lightning SVG */}
             <motion.svg
               className="absolute inset-0 w-full h-full pointer-events-none"
               viewBox="0 0 800 200"
               style={{ zIndex: -1 }}
-              animate={{ opacity: [0.6, 1, 0.6] }}
+              animate={{
+                opacity: [0.6, 1, 0.6],
+              }}
               transition={{
                 duration: 0.3,
                 repeat: Infinity,
                 ease: "easeInOut",
               }}
             >
-              {/* (paths omitted for brevity – keep your existing ones) */}
-              {/* ... your lightning <motion.path> elements here ... */}
+              {/* Your lightning paths (kept as-is from your code) */}
+              <motion.path
+                d="M50 100 L150 60 L120 120 L200 80 L170 140 L250 100"
+                stroke="#00bfff"
+                strokeWidth="3"
+                fill="none"
+                initial={{ pathLength: 0, opacity: 0 }}
+                animate={{
+                  pathLength: [0, 1, 0],
+                  opacity: [0, 1, 0],
+                }}
+                transition={{
+                  duration: 1.5,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: 0,
+                }}
+                style={{
+                  filter:
+                    "drop-shadow(0 0 8px #00bfff) drop-shadow(0 0 15px #0080ff)",
+                }}
+              />
+              {/* ... keep the rest of your lightning <motion.path>s here ... */}
             </motion.svg>
 
-            {/* Electric glow background */}
+            {/* Glow background */}
             <motion.div
               className="absolute inset-0 -m-8"
               style={{
@@ -277,7 +255,7 @@ const Home = () => {
               }}
             />
 
-            {/* Main electric title */}
+            {/* Main title */}
             <motion.h1
               className="text-5xl md:text-7xl lg:text-8xl font-black tracking-wider cursor-pointer relative z-10"
               style={{
@@ -311,6 +289,7 @@ const Home = () => {
             >
               HACKSPRINT
             </motion.h1>
+
             {/* Electric particles */}
             <motion.div className="absolute inset-0 pointer-events-none">
               {[...Array(12)].map((_, i) => (
@@ -336,9 +315,9 @@ const Home = () => {
                 />
               ))}
             </motion.div>
-            {/* -------------- TITLE / LIGHTNING END -------------- */}
           </motion.div>
 
+          {/* Subtitle */}
           <motion.p
             className="text-lg md:text-2xl text-cyan-400 font-semibold tracking-wide"
             variants={itemVariants}
@@ -347,36 +326,223 @@ const Home = () => {
               color: "#22d3ee",
               transition: { type: "spring", stiffness: 300 },
             }}
-            style={{
-              fontFamily: "'Orbitron', sans-serif",
-            }}
+            style={{ fontFamily: "'Orbitron', sans-serif" }}
           >
             36 HOUR HACKATHON
           </motion.p>
 
-          {/* Countdown Timer */}
-          {/* (Your full countdown block stays the same – omitted to keep this short) */}
-          {/* ---------------------------------------------- */}
+          {/* Countdown */}
+          <motion.div className="mt-8 text-center" variants={itemVariants}>
+            <motion.p
+              className="text-sm md:text-lg text-cyan-400 font-semibold mb-4 tracking-wide"
+              style={{ fontFamily: "'Orbitron', sans-serif" }}
+              animate={{
+                opacity: [0.7, 1, 0.7],
+              }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+            >
+              LAUNCH COUNTDOWN
+            </motion.p>
+
+            <motion.div
+              className="flex justify-center items-center space-x-2 sm:space-x-4 md:space-x-6 lg:space-x-8"
+              variants={itemVariants}
+            >
+              {/* Days */}
+              <motion.div
+                className="text-center"
+                whileHover={{ scale: 1.1 }}
+                animate={{
+                  y: [0, -5, 0],
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: 0,
+                }}
+              >
+                <motion.div
+                  className="bg-gradient-to-b from-cyan-400 to-blue-600 text-black font-black text-lg sm:text-xl md:text-2xl lg:text-4xl px-2 py-1 sm:px-3 sm:py-2 md:px-4 md:py-3 rounded-lg border-2 border-cyan-300"
+                  style={{ fontFamily: "'Pixelify Sans', monospace" }}
+                  animate={{
+                    boxShadow: [
+                      "0 0 20px rgba(34, 211, 238, 0.5)",
+                      "0 0 30px rgba(34, 211, 238, 0.8)",
+                      "0 0 20px rgba(34, 211, 238, 0.5)",
+                    ],
+                  }}
+                  transition={{
+                    duration: 1.5,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                >
+                  {String(timeLeft.days).padStart(2, "0")}
+                </motion.div>
+                <p
+                  className="text-cyan-400 text-xs md:text-sm mt-2 font-semibold"
+                  style={{ fontFamily: "'Orbitron', sans-serif" }}
+                >
+                  DAYS
+                </p>
+              </motion.div>
+
+              {/* Hours */}
+              <motion.div
+                className="text-center"
+                whileHover={{ scale: 1.1 }}
+                animate={{
+                  y: [0, -5, 0],
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: 0.2,
+                }}
+              >
+                <motion.div
+                  className="bg-gradient-to-b from-purple-400 to-purple-600 text-white font-black text-lg sm:text-xl md:text-2xl lg:text-4xl px-2 py-1 sm:px-3 sm:py-2 md:px-4 md:py-3 rounded-lg border-2 border-purple-300"
+                  style={{ fontFamily: "'Pixelify Sans', monospace" }}
+                  animate={{
+                    boxShadow: [
+                      "0 0 20px rgba(168, 85, 247, 0.5)",
+                      "0 0 30px rgba(168, 85, 247, 0.8)",
+                      "0 0 20px rgba(168, 85, 247, 0.5)",
+                    ],
+                  }}
+                  transition={{
+                    duration: 1.5,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: 0.3,
+                  }}
+                >
+                  {String(timeLeft.hours).padStart(2, "0")}
+                </motion.div>
+                <p
+                  className="text-purple-400 text-xs md:text-sm mt-2 font-semibold"
+                  style={{ fontFamily: "'Orbitron', sans-serif" }}
+                >
+                  HOURS
+                </p>
+              </motion.div>
+
+              {/* Minutes */}
+              <motion.div
+                className="text-center"
+                whileHover={{ scale: 1.1 }}
+                animate={{
+                  y: [0, -5, 0],
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: 0.4,
+                }}
+              >
+                <motion.div
+                  className="bg-gradient-to-b from-pink-400 to-pink-600 text-white font-black text-lg sm:text-xl md:text-2xl lg:text-4xl px-2 py-1 sm:px-3 sm:py-2 md:px-4 md:py-3 rounded-lg border-2 border-pink-300"
+                  style={{ fontFamily: "'Pixelify Sans', monospace" }}
+                  animate={{
+                    boxShadow: [
+                      "0 0 20px rgba(236, 72, 153, 0.5)",
+                      "0 0 30px rgba(236, 72, 153, 0.8)",
+                      "0 0 20px rgba(236, 72, 153, 0.5)",
+                    ],
+                  }}
+                  transition={{
+                    duration: 1.5,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: 0.6,
+                  }}
+                >
+                  {String(timeLeft.minutes).padStart(2, "0")}
+                </motion.div>
+                <p
+                  className="text-pink-400 text-xs md:text-sm mt-2 font-semibold"
+                  style={{ fontFamily: "'Orbitron', sans-serif" }}
+                >
+                  MINUTES
+                </p>
+              </motion.div>
+
+              {/* Seconds */}
+              <motion.div
+                className="text-center"
+                whileHover={{ scale: 1.1 }}
+                animate={{
+                  y: [0, -5, 0],
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: 0.6,
+                }}
+              >
+                <motion.div
+                  className="bg-gradient-to-b from-green-400 to-green-600 text-black font-black text-lg sm:text-xl md:text-2xl lg:text-4xl px-2 py-1 sm:px-3 sm:py-2 md:px-4 md:py-3 rounded-lg border-2 border-green-300"
+                  style={{ fontFamily: "'Pixelify Sans', monospace" }}
+                  animate={{
+                    boxShadow: [
+                      "0 0 20px rgba(34, 197, 94, 0.5)",
+                      "0 0 30px rgba(34, 197, 94, 0.8)",
+                      "0 0 20px rgba(34, 197, 94, 0.5)",
+                    ],
+                    scale: timeLeft.seconds % 2 === 0 ? [1, 1.05, 1] : 1,
+                  }}
+                  transition={{
+                    boxShadow: {
+                      duration: 1.5,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                      delay: 0.9,
+                    },
+                    scale: {
+                      duration: 0.2,
+                      ease: "easeOut",
+                    },
+                  }}
+                >
+                  {String(timeLeft.seconds).padStart(2, "0")}
+                </motion.div>
+                <p
+                  className="text-green-400 text-xs md:text-sm mt-2 font-semibold"
+                  style={{ fontFamily: "'Orbitron', sans-serif" }}
+                >
+                  SECONDS
+                </p>
+              </motion.div>
+            </motion.div>
+          </motion.div>
         </motion.div>
 
-        {/* Emergency Start Button */}
+        {/* Emergency button – instant navigation */}
         <motion.div
           className="mt-16 mb-10"
           variants={floatingVariants}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
         >
-          <EmergencyButton onStartLoading={handleStartLoading} />
+          <EmergencyButton onStartLoading={handleStart} />
         </motion.div>
 
-        {/* Devfolio Apply button */}
+        {/* Devfolio apply button – required for verification */}
         <button
           className="apply-button"
           data-hackathon-slug="hacksprint2"
           data-button-theme="dark-inverted"
         ></button>
 
-        {/* Sponsors Section – SIMPLE LOGO ROWS */}
+        {/* Sponsors - explicit tiers, no tier passed in functions */}
         <motion.div
           className="w-full max-w-6xl mt-12 px-4 sm:px-6"
           variants={containerVariants}
@@ -384,74 +550,121 @@ const Home = () => {
           <motion.h2
             className="text-3xl md:text-4xl lg:text-5xl font-black text-white tracking-wider text-center mb-6"
             variants={itemVariants}
-            style={{ fontFamily: "'Pixelify Sans', monospace", fontWeight: 700 }}
+            style={{ fontFamily: "'Pixelify Sans', monospace" }}
           >
             SPONSORS
           </motion.h2>
 
-          <motion.div className="space-y-12 mt-4" variants={containerVariants}>
-            {Object.entries(sponsorTiers).map(([tier, sponsors]) => {
-              const config = tierConfig[tier];
-              if (!sponsors || sponsors.length === 0) return null;
-
-              return (
-                <motion.div
-                  key={tier}
-                  className="space-y-6"
-                  variants={containerVariants}
+          {/* Platinum */}
+          <section className="mb-12 text-center">
+            <h3
+              className="text-2xl md:text-3xl font-black text-gray-300"
+              style={{ textShadow: "0 0 20px rgba(229,231,235,0.8)" }}
+            >
+              PLATINUM SPONSORS
+            </h3>
+            <div className="flex flex-wrap justify-center items-center gap-10 mt-6">
+              {platinumSponsors.map((s) => (
+                <a
+                  key={s.name}
+                  href={s.link}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center justify-center"
                 >
-                  {/* Tier title */}
-                  <motion.div className="text-center" variants={itemVariants}>
-                    <motion.h3
-                      className={`text-2xl md:text-3xl font-black tracking-wider ${config.textColor}`}
-                      style={{
-                        fontFamily: "'Pixelify Sans', monospace",
-                        textShadow: `0px 0px 20px ${config.glowColor}`,
-                      }}
-                    >
-                      {config.title}
-                    </motion.h3>
-                  </motion.div>
+                  <img
+                    src={s.image}
+                    alt={s.alt}
+                    className="h-32 object-contain"
+                  />
+                </a>
+              ))}
+            </div>
+          </section>
 
-                  {/* Logos only */}
-                  <motion.div
-                    className="flex flex-wrap justify-center items-center gap-8 mt-2"
-                    variants={containerVariants}
-                  >
-                    {sponsors.map((sponsor) => (
-                      <motion.a
-                        key={sponsor.name}
-                        href={sponsor.link === "#" ? undefined : sponsor.link}
-                        target={
-                          sponsor.link === "#" ? undefined : "_blank"
-                        }
-                        rel={
-                          sponsor.link === "#" ? undefined : "noreferrer"
-                        }
-                        variants={itemVariants}
-                        whileHover={{ scale: 1.05 }}
-                        className="inline-flex items-center justify-center"
-                      >
-                        <img
-                          src={sponsor.image}
-                          alt={sponsor.alt}
-                          className={`${config.logoSize} object-contain`}
-                          onError={(e) => {
-                            e.target.src = `https://via.placeholder.com/200x100/374151/ffffff?text=${encodeURIComponent(
-                              sponsor.name
-                            )}`;
-                          }}
-                        />
-                      </motion.a>
-                    ))}
-                  </motion.div>
-                </motion.div>
-              );
-            })}
-          </motion.div>
+          {/* Gold */}
+          <section className="mb-12 text-center">
+            <h3
+              className="text-2xl md:text-3xl font-black text-yellow-400"
+              style={{ textShadow: "0 0 20px rgba(251,191,36,0.8)" }}
+            >
+              GOLD SPONSORS
+            </h3>
+            <div className="flex flex-wrap justify-center items-center gap-10 mt-6">
+              {goldSponsors.map((s) => (
+                <a
+                  key={s.name}
+                  href={s.link}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center justify-center"
+                >
+                  <img
+                    src={s.image}
+                    alt={s.alt}
+                    className="h-24 object-contain"
+                  />
+                </a>
+              ))}
+            </div>
+          </section>
+
+          {/* Silver */}
+          <section className="mb-12 text-center">
+            <h3
+              className="text-2xl md:text-3xl font-black text-gray-400"
+              style={{ textShadow: "0 0 20px rgba(156,163,175,0.8)" }}
+            >
+              SILVER SPONSORS
+            </h3>
+            <div className="flex flex-wrap justify-center items-center gap-10 mt-6">
+              {silverSponsors.map((s) => (
+                <a
+                  key={s.name}
+                  href={s.link}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center justify-center"
+                >
+                  <img
+                    src={s.image}
+                    alt={s.alt}
+                    className="h-20 object-contain"
+                  />
+                </a>
+              ))}
+            </div>
+          </section>
+
+          {/* Bronze */}
+          <section className="mb-12 text-center">
+            <h3
+              className="text-2xl md:text-3xl font-black text-orange-400"
+              style={{ textShadow: "0 0 20px rgba(234,88,12,0.8)" }}
+            >
+              BRONZE SPONSORS
+            </h3>
+            <div className="flex flex-wrap justify-center items-center gap-10 mt-6">
+              {bronzeSponsors.map((s) => (
+                <a
+                  key={s.name}
+                  href={s.link}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center justify-center"
+                >
+                  <img
+                    src={s.image}
+                    alt={s.alt}
+                    className="h-16 object-contain"
+                  />
+                </a>
+              ))}
+            </div>
+          </section>
         </motion.div>
 
-        {/* Interactive particles */}
+        {/* Floating particles */}
         <motion.div
           className="absolute inset-0 pointer-events-none"
           initial={{ opacity: 0 }}
